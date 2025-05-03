@@ -7,7 +7,7 @@ const FaceImageDetect = ({ setMode }: FaceDetectorProp) => {
   const imgRef = useRef<HTMLImageElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { modelsLoaded } = useFaceModels();
+  const {  } = useFaceModels();
   const [selectImage, setSelectImage] = useState(false);
   const handleImage = async () => {
     const img = imgRef.current;

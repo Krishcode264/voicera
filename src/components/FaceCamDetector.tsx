@@ -8,7 +8,7 @@ const FaceCamDetector = ({ setMode }: FaceDetectorProp) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [cameraStarted, setCameraStarted] = useState(false);
-  const { modelsLoaded } = useFaceModels();
+  const {modelsLoaded  } = useFaceModels();
 
   useEffect(() => {
     const startCamera = async () => {
