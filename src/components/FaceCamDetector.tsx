@@ -6,7 +6,7 @@ import { FaceDetectorProp } from "../types";
 const FaceCamDetector = ({ setMode }: FaceDetectorProp) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
+  const [loading,setLoading]=useState(false)
   const [cameraStarted, setCameraStarted] = useState(false);
   const {modelsLoaded  } = useFaceModels();
 
@@ -17,6 +17,7 @@ const FaceCamDetector = ({ setMode }: FaceDetectorProp) => {
           video: true,
         });
         if (videoRef.current) {
+          setLoading(true)
           videoRef.current.srcObject = stream;
         }
       } catch (error) {
@@ -46,7 +47,7 @@ const FaceCamDetector = ({ setMode }: FaceDetectorProp) => {
         .withFaceLandmarks()
         .withFaceExpressions()
         .withAgeAndGender();
-
+            setLoading(false)
       const resized = faceapi.resizeResults(detections, { width, height });
 
       const context = canvas.getContext("2d");
@@ -55,7 +56,7 @@ const FaceCamDetector = ({ setMode }: FaceDetectorProp) => {
       faceapi.draw.drawDetections(canvas, resized);
       faceapi.draw.drawFaceLandmarks(canvas, resized);
       faceapi.draw.drawFaceExpressions(canvas, resized);
-
+  
       resized.forEach((result) => {
         const { age, gender, genderProbability, expressions, detection } =
           result;
@@ -94,6 +95,12 @@ const FaceCamDetector = ({ setMode }: FaceDetectorProp) => {
       >
         close
       </button>
+{
+  loading && (
+    <p className="text-center   m-4  mx-auto text-violet-600 font-medium p-2">Our  AI is Working for you....</p>
+  )
+}
+     
       <div className="relative w-full max-w-3xl mx-auto ">
         <video
           ref={videoRef}

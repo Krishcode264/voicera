@@ -7,6 +7,7 @@ const FaceImageDetect = ({ setMode }: FaceDetectorProp) => {
   const imgRef = useRef<HTMLImageElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const[loading,setLoading]=useState(false)
   const {  } = useFaceModels();
   const [selectImage, setSelectImage] = useState(false);
   const handleImage = async () => {
@@ -23,7 +24,7 @@ const FaceImageDetect = ({ setMode }: FaceDetectorProp) => {
       .withFaceLandmarks()
       .withFaceExpressions()
       .withAgeAndGender();
-
+     setLoading(false)
     const resized = faceapi.resizeResults(detections, { width, height });
     resized.forEach((result) => {
       const { age, gender, genderProbability, expressions, detection } = result;
@@ -56,7 +57,11 @@ const FaceImageDetect = ({ setMode }: FaceDetectorProp) => {
       >
         close
       </button>
-
+      {
+  loading && (
+    <p className="text-center  mx-auto text-violet-600 font-medium p-2">Our  AI is Working for you....</p>
+  )
+}
       {!selectImage && (
         <>
           <button
@@ -84,6 +89,7 @@ const FaceImageDetect = ({ setMode }: FaceDetectorProp) => {
                   }
                 };
                 reader.readAsDataURL(file);
+                setLoading(true)
                 setSelectImage(true)
               }
             }}
